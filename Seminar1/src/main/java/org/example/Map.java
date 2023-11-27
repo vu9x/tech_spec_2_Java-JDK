@@ -30,6 +30,7 @@ public class Map extends JPanel{
     private final int EMPTY_DOT = 0;
     private int fieldSizeY;
     private int fieldSizeX;
+    private int wLen;
     private char[][] field;
 
     private boolean isGameOver;
@@ -80,6 +81,9 @@ public class Map extends JPanel{
     }
 
     void startNewGame(int mode, int fSzX, int fSzY, int wLen){
+        fieldSizeY = fSzY;
+        fieldSizeX = fSzX;
+        this.wLen = wLen;
         System.out.printf("Mode: %d;\nSize: x=%d, y=%d;\nWin Length: %d",
                 mode, fSzX, fSzY, wLen);
         initMap();
@@ -99,16 +103,16 @@ public class Map extends JPanel{
         if(!isInitialized) return;
         panelWidth = getWidth();
         panelHeight = getHeight();
-        cellHeight = panelHeight / 3;
-        cellWidth = panelWidth / 3;
+        cellHeight = panelHeight / fieldSizeY;
+        cellWidth = panelWidth / fieldSizeX;
 
         g.setColor(Color.BLACK);
-        for (int h = 0; h < 3; h++) {
+        for (int h = 0; h < fieldSizeY; h++) {
             int y = h * cellHeight;
             g.drawLine(0, y, panelWidth, y);
         }
 
-        for (int w = 0; w < 3; w++) {
+        for (int w = 0; w < fieldSizeX; w++) {
             int x = w * cellWidth;
             g.drawLine(x, 0, x, panelHeight);
         }
@@ -162,8 +166,6 @@ public class Map extends JPanel{
      * Tic Tac Toe game logic
      */
     private void initMap(){
-        fieldSizeX = 3;
-        fieldSizeY = 3;
         field = new char[fieldSizeY][fieldSizeX];
         for (int i = 0; i < fieldSizeY; i++) {
             for (int j = 0; j < fieldSizeX; j++) {
